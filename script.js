@@ -42,7 +42,7 @@ function showPage(page) {
 }
 
 async function sendData(id) {
-    const response = await fetch('/update_count', {
+    const response = await fetch('https://whatsbeauty-back.onrender.com/update_count', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ function resetPage() {
 }
 
 async function drawChart() {
-    const response = await fetch('/get_counts');
+    const response = await fetch('https://whatsbeauty-back.onrender.com/get_counts');
     const counts = await response.json();
 
     const ctx = document.getElementById('chartCanvas').getContext('2d');
