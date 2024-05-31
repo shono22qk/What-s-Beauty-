@@ -11,7 +11,7 @@ body {
 }
 
 h1, p {
-    font-weight: normal; /* BOLDを解除 */
+    font-weight: normal;
 }
 
 .page {
@@ -30,17 +30,4 @@ h1, p {
 
 .fade-in.show {
     opacity: 1;
-}
-
-#page1 {
-    background-color: #fff;
-}
-
-#page2 p {
-    cursor: pointer;
-    font-size: 2em;
-}
-
-#page3 {
-    background-color: #fff;
 }

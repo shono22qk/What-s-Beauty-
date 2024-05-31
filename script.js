@@ -10,16 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('#page2 p').forEach(el => {
         el.addEventListener('click', async (event) => {
             const id = event.target.getAttribute('data-id');
-            try {
-                const result = await sendData(id);
-                console.log('Data sent successfully:', result);
-                nextPage();
-            } catch (error) {
-                console.error('Error sending data:', error);
-            }
+            await sendData(id);
+            nextPage();
         });
     });
-    
 
     document.getElementById('page3').addEventListener('click', () => {
         currentPage = 1;
@@ -35,7 +29,7 @@ function showPage(page) {
     if (page === 1) {
         setTimeout(() => {
             document.querySelector('#page1 .fade-in').classList.add('show');
-        }, 100); // フェードインの遅延を追加
+        }, 100);
     } else if (page === 2) {
         document.querySelectorAll('#page2 .fade-in').forEach((el, index) => {
             setTimeout(() => {
@@ -53,13 +47,8 @@ async function sendData(id) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: id }),
+        body: JSON.stringify({ id }),
     });
-
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-
     const result = await response.json();
     return result;
 }
@@ -71,7 +60,6 @@ function nextPage() {
 }
 
 function resetPage() {
-    // フェードインのリセット
     document.querySelectorAll('.fade-in').forEach(el => {
         el.classList.remove('show');
         el.style.opacity = 0;
@@ -79,35 +67,27 @@ function resetPage() {
 }
 
 async function drawChart() {
-    try {
-        const response = await fetch('https://whatsbeauty-back.onrender.com/get_counts');
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const counts = await response.json();
-        console.log('Counts data:', counts);
+    const response = await fetch('https://whatsbeauty-back.onrender.com/get_counts');
+    const counts = await response.json();
 
-        const ctx = document.getElementById('chartCanvas').getContext('2d');
-        const data = {
-            labels: ['調和だ', '闘争だ', '真だ', '無だ'],
-            datasets: [{
-                label: '選択数',
-                data: [counts.text1, counts.text2, counts.text3, counts.text4],
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
-            }]
-        };
-        new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+    const ctx = document.getElementById('chartCanvas').getContext('2d');
+    const data = {
+        labels: ['調和だ', '闘争だ', '真だ', '無だ'],
+        datasets: [{
+            label: '選択数',
+            data: [counts.text1, counts.text2, counts.text3, counts.text4],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+        }]
+    };
+    new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
-        });
-    } catch (error) {
-        console.error('Error fetching or drawing chart:', error);
-    }
+        }
+    });
 }
