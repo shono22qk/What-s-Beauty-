@@ -1,6 +1,7 @@
 body {
     font-family: '游明朝', serif;
-    background-color: #f5f5f5;
+    background-color: #000000;
+    color: #ffffff;
     margin: 0;
     padding: 0;
     display: flex;
